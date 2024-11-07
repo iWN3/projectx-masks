@@ -1,3 +1,4 @@
+local Sources = {}
 if Config.Framework == "qb-core" or Config.Framework == "qbox" then
     QBCore = exports["qb-core"]:GetCoreObject()
 else
@@ -24,8 +25,11 @@ CreateThread(function()
     end
 end)
 
-RegisterNetEvent('projectx-masks:server:AddItem', function(bool, Item)
+RegisterNetEvent('projectx-masks:server:AddItem', function(Item)
     local src = source
+    local bool
+    for i = 1, #Sources do if Sources[i] == src then table.remove(Sources, i) bool = true end end
+    Wait(100)
     if bool then
         if Config.Framework == "qb-core" or Config.Framework == "qbox" then
             if Config.Inventory == "ox" then
@@ -58,6 +62,7 @@ end)
 
 RegisterNetEvent('projectx-masks:server:RemoveItem', function(Item)
     local src = source
+    Sources[#Sources + 1] = src
     if Config.Framework == "qb-core" or Config.Framework == "qbox" then
         if Config.Inventory == "ox" then
             exports.ox_inventory:RemoveItem(src, Item, 1)
