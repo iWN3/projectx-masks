@@ -8,6 +8,7 @@ the items are being used in our crime scripts, link below**
 ![NightVision](https://cdn.discordapp.com/attachments/1224996846406078514/1304106450477649940/nightvision.png?ex=672e2f46&is=672cddc6&hm=014e3f4ab40831d061b89e6d68358a04453b945667f99239e7a95799cd42d7a0&)
 
 ## [Our Tebex Store](https://www.projectx.gg)
+
 ## [Discord](https://discord.gg/bJNxYDAm5u)
 
 ## Features
