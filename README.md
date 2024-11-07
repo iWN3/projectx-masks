@@ -7,10 +7,8 @@ the items are being used in our crime scripts, link below**
 ![Gas Mask](https://cdn.discordapp.com/attachments/1224996846406078514/1304106476075356200/gasmask.png?ex=672e2f4d&is=672cddcd&hm=e56306fe10173f52b0378c68a3de3296a91db0890e861d62efbfe229f534f6e8&)
 ![NightVision](https://cdn.discordapp.com/attachments/1224996846406078514/1304106450477649940/nightvision.png?ex=672e2f46&is=672cddc6&hm=014e3f4ab40831d061b89e6d68358a04453b945667f99239e7a95799cd42d7a0&)
 
-## Links
-
-[Discord](https://discord.gg/bJNxYDAm5u)
-[Our Store](https://www.projectx.gg)
+## [Tebex Store](https://www.projectx.gg)
+## [Discord](https://discord.gg/bJNxYDAm5u)
 
 ## Features
 
