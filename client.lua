@@ -18,9 +18,9 @@ RegisterNetEvent('projectx-masks:client:UseGasMask', function()
     if Mask["gasmask"] then return Notification(Config.Notification, Config.WearingMaskMessage) end
     TriggerServerEvent('projectx-masks:server:RemoveItem', Config.GasMask["Item"])
     loadAnimDict('mp_masks@on_foot')
-    TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 8.0, -8.0, -1, 48, 0, false, false, false)
+    TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 8.0, -8.0, -1, 9, 1, false, false, false)
     Wait(600)
-    
+    ClearPedTasks(PlayerPedId())
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, true, true, false)
     SetPedComponentVariation(PlayerPedId(), 1, Config["GasMask"]["Clothing"], Config["GasMask"]["Variation"], 0)
     Mask["gasmask"] = true
@@ -31,9 +31,9 @@ RegisterNetEvent('projectx-masks:client:UseNightVision', function()
     if Mask["nightvision"] then return Notification(Config.Notification, Config.WearingMaskMessage) end
     TriggerServerEvent('projectx-masks:server:RemoveItem', Config.NightVisionGoggles["Item"])
     loadAnimDict('mp_masks@on_foot')
-    TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 8.0, -8.0, -1, 48, 0, false, false, false)
+    TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 8.0, -8.0, -1, 9, 1, false, false, false)
     Wait(600)
-    
+    ClearPedTasks(PlayerPedId())
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, true, true, false)
     SetPedPropIndex(PlayerPedId(), 0, Config["NightVisionGoggles"]["Clothing"], 0, 0)
     Mask["nightvision"] = true
@@ -41,10 +41,12 @@ RegisterNetEvent('projectx-masks:client:UseNightVision', function()
 end)
 
 RegisterNetEvent('projectx-masks:client:RemoveMask', function(Item)
+    if not Mask[Item] then return Notification(Config.Notification, Config.ErrorMessage) end
     if Item == Config["NightVisionGoggles"]["Item"] then if NightVision then return Notification(Config.Notification, Config.TurnOffNightVisionMessage) end end
     loadAnimDict('missheist_agency2ahelmet')
-    TaskPlayAnim(PlayerPedId(), "missheist_agency2ahelmet", "take_off_helmet_stand", 8.0, -8.0, -1, 48, 0, false, false, false)
-    Wait(900)
+    TaskPlayAnim(PlayerPedId(), "missheist_agency2ahelmet", "take_off_helmet_stand", 8.0, -8.0, -1, 9, 1, false, false, false)
+    Wait(600)
+    ClearPedTasks(PlayerPedId())
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, false, false, false)
     if Item == Config["GasMask"]["Item"] then SetPedComponentVariation(PlayerPedId(), 1, 0, 0, 0) else ClearPedProp(PlayerPedId(), 0) end
     TriggerServerEvent('projectx-masks:server:AddItem', Mask[Item], Item)
@@ -57,19 +59,22 @@ RegisterNetEvent('projectx-masks:client:Sync', function(Item)
 end)
 
 RegisterNetEvent('projectx-masks:client:ToggleNightVision', function()
+    if not Mask["nightvision"] then return end
     local anim
     local clothing
+    local coords = GetEntityCoords(PlayerPedId())
     if NightVision then
         anim = 'goggles_up'
         clothing = Config["NightVisionGoggles"]["Clothing"]
-        TriggerEvent('InteractSound_CL:PlayWithinDistance', GetEntityCoords(PlayerPedId()), 0.1, "nvg", 0.25)
     else
         anim = 'goggles_down'
         clothing = (Config["NightVisionGoggles"]["Clothing"] - 1)
     end
     loadAnimDict('anim@mp_helmets@on_foot')
-    TaskPlayAnim(PlayerPedId(), 'anim@mp_helmets@on_foot', anim, 8.0, -8.0, -1, 48, 0, false, false, false)
+    TaskPlayAnim(PlayerPedId(), 'anim@mp_helmets@on_foot', anim, 8.0, -8.0, -1, 9, 1, false, false, false)
     Wait(550)
+    TriggerEvent('InteractSound_CL:PlayWithinDistance', coords, 1.0, "nv", 0.25)
+    ClearPedTasks(PlayerPedId())
     SetNightvision(not NightVision)
     SetPedPropIndex(PlayerPedId(), 0, clothing, 0, 0)
     NightVision = not NightVision
@@ -77,25 +82,13 @@ RegisterNetEvent('projectx-masks:client:ToggleNightVision', function()
 end)
 
 RegisterCommand('removegasmask', function()
-    if not Mask["gasmask"] then return Notification(Config.Notification, Config.ErrorMessage) end
     TriggerEvent('projectx-masks:client:RemoveMask', Config.GasMask["Item"])
 end, false)
-if not Config.GasMask["RemoveCommand"] then
-    RegisterKeyMapping('removegasmask', 'Remove Gas Mask', 'keyboard', Config.GasMask["removegasmaskKey"])
-end
 
 RegisterCommand('removenightvision', function()
-    if not Mask["nightvision"] then return Notification(Config.Notification, Config.ErrorMessage) end
     TriggerEvent('projectx-masks:client:RemoveMask', Config.NightVisionGoggles["Item"])
 end, false)
-if not Config.NightVisionGoggles["RemoveCommand"] then
-    RegisterKeyMapping('removenightvision', 'Remove Nightvision', 'keyboard', Config.NightVisionGoggles["RemoveNightvisionKey"])
-end
 
-RegisterCommand('togglenightvision', function(source, args, rawCommand)
-    if not Mask["nightvision"] then return Notification(Config.Notification, Config.NightVisionMessage) end
+RegisterCommand('togglenightvision', function()
     TriggerEvent('projectx-masks:client:ToggleNightVision')
 end, false)
-if not Config.NightVisionGoggles["ToggleCommand"] then
-    RegisterKeyMapping('togglenightvision', 'Toggle Nightvision', 'keyboard', Config.NightVisionGoggles["NightVisionKey"])
-end
