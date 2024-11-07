@@ -49,7 +49,7 @@ RegisterNetEvent('projectx-masks:client:RemoveMask', function(Item)
     ClearPedTasks(PlayerPedId())
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, false, false, false)
     if Item == Config["GasMask"]["Item"] then SetPedComponentVariation(PlayerPedId(), 1, 0, 0, 0) else ClearPedProp(PlayerPedId(), 0) end
-    TriggerServerEvent('projectx-masks:server:AddItem', Mask[Item], Item)
+    TriggerServerEvent('projectx-masks:server:AddItem', Item)
 end)
 
 RegisterNetEvent('projectx-masks:client:Sync', function(Item)
