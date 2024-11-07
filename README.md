@@ -33,9 +33,9 @@ the items are being used in our crime scripts, link below**
 
 ## Commands
 
-- Remove Gas Mask: 'removegasmask' Command or '.' Button by default
-- Remove Nightvision Goggles: 'removenightvision' Command or '.' Button by default
-- Toggle Nightvision: 'togglenightvision' Command or 'n' Button by default
+- Remove Gas Mask: 'removegasmask'
+- Remove Nightvision Goggles: 'removenightvision'
+- Toggle Nightvision: 'togglenightvision'
 
 ### (QBCore or others) Items to add in qb-core/shared/items.lua on the bottom of the list
 
