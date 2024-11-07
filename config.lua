@@ -9,26 +9,16 @@ Config = {
 		["Item"] = "gasmask",
 		["Clothing"] = 129,
 		["Variation"] = 1,
-
-		["RemoveCommand"] = false,
-		["RemoveMaskKey"] = '.',
 	},
 		
 	["NightVisionGoggles"] = {
 		["Item"] = "nightvision",
 		["Clothing"] = 119,
-
-		["RemoveCommand"] = false,
-		["RemoveNightvisionKey"] = '.',
-
-		["ToggleCommand"] = false,
-		["NightVisionKey"] = 'n',
 	},
 
 	["NotificationDuration"] = 5000,
 
 	["ErrorMessage"] = "You are not wearing a mask",
-	["NightVisionMessage"] = "You are not wearing Nightvision Goggles",
 	["WearingMaskMessage"] = "You are already wearing one",
 	["TurnOffNightVisionMessage"] = "Turn off your nightvision first!",
 	["GlitchMessage"] = "Nice try..",
