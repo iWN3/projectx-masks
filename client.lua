@@ -24,6 +24,7 @@ RegisterNetEvent('projectx-masks:client:UseGasMask', function()
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, true, true, false)
     SetPedComponentVariation(PlayerPedId(), 1, Config["GasMask"]["Clothing"], Config["GasMask"]["Variation"], 0)
     Mask["gasmask"] = true
+    Wait(100)
     unloadAnimDict('mp_masks@on_foot')
 end)
 
