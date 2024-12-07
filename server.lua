@@ -12,7 +12,7 @@ CreateThread(function()
         if Config.Inventory ~= "ox" then
             QBCore.Functions.CreateUseableItem(Config.Items["GasMask"], function(source, Item)
                 if QBCore.Functions.GetPlayer(source).Functions.GetItemBySlot(Item.slot) == nil then return end
-                TriggerClientEvent("projectx-gasmask:client:USeGasMask", source)
+                TriggerClientEvent("projectx-gasmask:client:UseGasMask", source)
             end)
         end
     end
