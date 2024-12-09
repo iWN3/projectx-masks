@@ -10,16 +10,16 @@ end
 CreateThread(function()
     if Config.Framework == "qb-core" or Config.Framework == "qbox" then
         if Config.Inventory ~= "ox" then
-            QBCore.Functions.CreateUseableItem(Config.Items["GasMask"], function(source, Item)
+            QBCore.Functions.CreateUseableItem(Config.GasMask["Item"], function(source, Item)
                 if QBCore.Functions.GetPlayer(source).Functions.GetItemBySlot(Item.slot) == nil then return end
-                TriggerClientEvent("projectx-gasmask:client:UseGasMask", source)
+                TriggerClientEvent("projectx-masks:client:UseGasMask", source)
             end)
         end
     end
     if Config.Framework == "esx" then
         if Config.Inventory == "esx" then
-            ESX.RegisterUsableItem(Config.Items["GasMask"], function(source)
-                TriggerClientEvent("projectx-gasmask:client:UseGasMask", source, Config.Items["GasMask"])
+            ESX.RegisterUsableItem(Config.GasMask["Item"], function(source)
+                TriggerClientEvent("projectx-masks:client:UseGasMask", source, Config.GasMask["Item"])
             end)
         end
     end
