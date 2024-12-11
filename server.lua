@@ -14,12 +14,19 @@ CreateThread(function()
                 if QBCore.Functions.GetPlayer(source).Functions.GetItemBySlot(Item.slot) == nil then return end
                 TriggerClientEvent("projectx-masks:client:UseGasMask", source)
             end)
+            QBCore.Functions.CreateUseableItem(Config.NightVisionGoggles["Item"], function(source, Item)
+                if QBCore.Functions.GetPlayer(source).Functions.GetItemBySlot(Item.slot) == nil then return end
+                TriggerClientEvent("projectx-masks:client:UseNightVision", source)
+            end)
         end
     end
     if Config.Framework == "esx" then
         if Config.Inventory == "esx" then
             ESX.RegisterUsableItem(Config.GasMask["Item"], function(source)
                 TriggerClientEvent("projectx-masks:client:UseGasMask", source, Config.GasMask["Item"])
+            end)
+            ESX.RegisterUsableItem(Config.NightVisionGoggles["Item"], function(source)
+                TriggerClientEvent("projectx-masks:client:UseNightVision", source, Config.NightVisionGoggles["Item"])
             end)
         end
     end
