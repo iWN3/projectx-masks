@@ -35,24 +35,26 @@ end)
 RegisterNetEvent('projectx-masks:server:AddItem', function(Item)
     local src = source
     local bool
+    local Mask
     for i = 1, #Sources do if Sources[i] == src then table.remove(Sources, i) bool = true end end
+    if Item then Mask = Config["GasMask"]["Item"] else Mask = Config["NightVisionGoggles"]["Item"] end
     Wait(100)
     if bool then
         if Config.Framework == "qb-core" or Config.Framework == "qbox" then
             if Config.Inventory == "ox" then
-                exports.ox_inventory:AddItem(src, Item, 1)
+                exports.ox_inventory:AddItem(src, Mask, 1)
             else
-                QBCore.Functions.GetPlayer(src).Functions.AddItem(Item, 1)
+                QBCore.Functions.GetPlayer(src).Functions.AddItem(Mask, 1)
             end
             if Config.Inventory ~= "ox" then
-                TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], 'add', 1)
+                TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[Mask], 'add', 1)
             end
         end
         if Config.Framework == "esx" then
             if Config.Inventory == "ox" then
-                exports.ox_inventory:AddItem(src, Item, 1)
+                exports.ox_inventory:AddItem(src, Mask, 1)
             else
-                ESX.GetPlayerFromId(src).addInventoryItem(Item, 1)
+                ESX.GetPlayerFromId(src).addInventoryItem(Mask, 1)
             end
         end
     else
@@ -64,7 +66,7 @@ RegisterNetEvent('projectx-masks:server:AddItem', function(Item)
             TriggerClientEvent('esx:showNotification', src, Config.GlitchMessage, 'error', Config.NotificationDuration)
         end
     end
-    TriggerClientEvent('projectx-masks:client:Sync', src, Item)
+    TriggerClientEvent('projectx-masks:client:Sync', src, Mask)
 end)
 
 RegisterNetEvent('projectx-masks:server:RemoveItem', function(Item)
