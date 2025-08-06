@@ -4,6 +4,11 @@ local NightVision = false
 local function loadAnimDict(dict) while not HasAnimDictLoaded(dict) do RequestAnimDict(dict) Wait(5) end end
 local function unloadAnimDict(dict) RemoveAnimDict(dict) end
 
+local function GetGender()
+    local ped = PlayerPedId()
+    return IsPedModel(ped, `mp_m_freemode_01`) and "male" or "female"
+end
+
 local function Notification(NotificationType, Message)
     if NotificationType == "ox" then
         lib.notify({description = Message, type = 'error', position = 'center-right'})
@@ -21,12 +26,15 @@ RegisterNetEvent('projectx-masks:client:UseGasMask', function()
     TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 8.0, -8.0, -1, 9, 1, false, false, false)
     Wait(600)
     ClearPedTasks(PlayerPedId())
+    local gender = GetGender()
+    local clothing = Config["GasMask"]["Clothing"][gender]
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, true, true, false)
-    SetPedComponentVariation(PlayerPedId(), 1, Config["GasMask"]["Clothing"], Config["GasMask"]["Variation"], 0)
+    SetPedComponentVariation(PlayerPedId(), 1, clothing.drawable, clothing.texture or 0, 0)
     Mask["gasmask"] = true
     Wait(100)
     unloadAnimDict('mp_masks@on_foot')
 end)
+
 
 RegisterNetEvent('projectx-masks:client:UseNightVision', function()
     if Mask["nightvision"] then return Notification(Config.Notification, Config.WearingMaskMessage) end
@@ -35,11 +43,16 @@ RegisterNetEvent('projectx-masks:client:UseNightVision', function()
     TaskPlayAnim(PlayerPedId(), "mp_masks@on_foot", "put_on_mask", 8.0, -8.0, -1, 9, 1, false, false, false)
     Wait(600)
     ClearPedTasks(PlayerPedId())
+    local gender = GetGender()
+    local clothing = Config["NightVisionGoggles"]["Clothing"][gender]["down"]
     SetEntityProofs(PlayerPedId(), false, false, false, false, false, false, true, true, false)
-    SetPedPropIndex(PlayerPedId(), 0, Config["NightVisionGoggles"]["Clothing"], 0, 0)
+    SetPedPropIndex(PlayerPedId(), 0, clothing.drawable, clothing.texture or 0, 0)
     Mask["nightvision"] = true
+    NightVision = true
     unloadAnimDict('mp_masks@on_foot')
 end)
+
+
 
 RegisterNetEvent('projectx-masks:client:RemoveMask', function(Item)
     if not Mask[Item] then return Notification(Config.Notification, Config.ErrorMessage) end
@@ -63,23 +76,18 @@ end)
 
 RegisterNetEvent('projectx-masks:client:ToggleNightVision', function()
     if not Mask["nightvision"] then return end
-    local anim
-    local clothing
+    local gender = GetGender()
     local coords = GetEntityCoords(PlayerPedId())
-    if NightVision then
-        anim = 'goggles_up'
-        clothing = Config["NightVisionGoggles"]["Clothing"]
-    else
-        anim = 'goggles_down'
-        clothing = (Config["NightVisionGoggles"]["Clothing"] - 1)
-    end
+    local anim = NightVision and 'goggles_up' or 'goggles_down'
+    local state = NightVision and "up" or "down"
+    local clothing = Config["NightVisionGoggles"]["Clothing"][gender][state]
     loadAnimDict('anim@mp_helmets@on_foot')
     TaskPlayAnim(PlayerPedId(), 'anim@mp_helmets@on_foot', anim, 8.0, -8.0, -1, 9, 1, false, false, false)
     Wait(550)
     TriggerEvent('InteractSound_CL:PlayWithinDistance', coords, 1.0, "nv", 0.25)
     ClearPedTasks(PlayerPedId())
     SetNightvision(not NightVision)
-    SetPedPropIndex(PlayerPedId(), 0, clothing, 0, 0)
+    SetPedPropIndex(PlayerPedId(), 0, clothing.drawable, clothing.texture or 0, 0)
     NightVision = not NightVision
     unloadAnimDict('anim@mp_helmets@on_foot')
 end)
